@@ -90,19 +90,6 @@ body{
 .slide.is-live .rv{opacity:1;transform:none;}
 
 /* ── Type scale ── */
-.eyebrow{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:0 0 clamp(20px,3vh,34px);
-  font-size:clamp(11px,1.05vw,14px);
-  font-weight:600;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--linen-dim);
-}
-.eyebrow b{color:var(--linen);font-weight:600;}
-
 .statement{
   margin:0;
   max-width:16ch;
@@ -465,48 +452,33 @@ body{
 
 /* ── Evidence stats (problem) ── */
 .stats{
-  margin:clamp(28px,4vh,44px) 0 0;
+  margin:clamp(36px,5.5vh,64px) 0 0;
+  width:100%;
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:clamp(10px,1.3vw,16px);
+  gap:clamp(14px,1.8vw,22px);
 }
 .stat{
-  padding:clamp(18px,2vw,24px) clamp(14px,1.5vw,20px);
+  padding:clamp(28px,3.2vw,42px) clamp(18px,2vw,28px);
   border:1px solid var(--edge);
-  border-radius:14px;
+  border-radius:18px;
   background:var(--ink-raised);
 }
 .stat b{
   display:block;
   font-family:var(--serif);
-  font-size:clamp(32px,4vw,56px);
+  font-size:clamp(52px,6.8vw,96px);
   font-weight:400;
-  letter-spacing:-.03em;
-  line-height:.9;
+  letter-spacing:-.04em;
+  line-height:.86;
   color:var(--olive);
 }
 .stat p{
-  margin:12px 0 0;
+  margin:18px 0 0;
   font-family:var(--serif);
-  font-size:clamp(13px,1.1vw,16px);
-  line-height:1.35;
+  font-size:clamp(16px,1.45vw,22px);
+  line-height:1.3;
   color:var(--linen-dim);
-}
-.closer{
-  margin:clamp(22px,3vh,34px) 0 0;
-  max-width:68ch;
-  font-family:var(--serif);
-  font-size:clamp(15px,1.35vw,20px);
-  font-style:italic;
-  line-height:1.5;
-  color:var(--linen-dim);
-}
-.source{
-  margin:14px 0 0;
-  font-size:clamp(10px,.85vw,12px);
-  letter-spacing:.04em;
-  color:var(--linen-dim);
-  opacity:.75;
 }
 
 /* ── Solution pillars ── */
@@ -595,8 +567,7 @@ body{
 
   <!-- 1 ────────────────────────────────────────────── -->
   <section class="slide cover">
-    <p class="eyebrow rv" style="--d:0">Track <b>Simulaciones</b> · Bogotá</p>
-    <h1 class="cover-mark rv" style="--d:1">Hippocamp</h1>
+    <h1 class="cover-mark rv" style="--d:0">Hippocamp</h1>
     <p class="cover-line rv" style="--d:2">Antes de publicar,<br /><em>escucha.</em></p>
     <p class="cover-foot rv" style="--d:4">
       <span>Tu red real, convertida en jurado</span>
@@ -605,69 +576,58 @@ body{
 
   <!-- 2 ────────────────────────────────────────────── -->
   <section class="slide">
-    <p class="eyebrow rv" style="--d:0">El problema</p>
-    <h2 class="statement statement--wide rv" style="--d:1">Publicar es una apuesta a ciegas para founders <em>solitarios</em>.</h2>
-    <p class="lead rv" style="--d:2">
+    <h2 class="statement statement--wide rv" style="--d:0">Publicar es una apuesta a ciegas para founders <em>solitarios</em>.</h2>
+    <p class="lead rv" style="--d:1">
       Quieren visibilidad y no saben qué copy va a funcionar antes de publicarlo — y eso les cuesta tiempo, presupuesto y oportunidades.
     </p>
     <div class="stats">
-      <article class="stat rv" style="--d:3">
+      <article class="stat rv" style="--d:2">
         <b>70%+</b>
         <p>de founders quiere construir marca personal — pero solo el 6% ejecuta</p>
       </article>
-      <article class="stat rv" style="--d:4">
+      <article class="stat rv" style="--d:3">
         <b>72%</b>
         <p>no logra crear contenido atractivo, aun destinando 45% del presupuesto a contenido</p>
       </article>
-      <article class="stat rv" style="--d:5">
+      <article class="stat rv" style="--d:4">
         <b>35%</b>
         <p>de los marketers cita lograr alto engagement como su reto #1 de contenido</p>
       </article>
-      <article class="stat rv" style="--d:6">
+      <article class="stat rv" style="--d:5">
         <b>76x</b>
         <p>más likes entre dos posts idénticos según el hook usado en el copy</p>
       </article>
     </div>
-    <p class="closer rv" style="--d:7">
-      Sin una forma de simular cómo reaccionaría su propia red antes de publicar, deciden a ciegas — probando a mano, con presupuesto y tiempo que no tienen de sobra.
-    </p>
-    <p class="source rv" style="--d:8">Fuente: Marketing in Asia — MediaNews4U · HubSpot State of Marketing 2026 · Podawaa</p>
   </section>
 
   <!-- 3 ────────────────────────────────────────────── -->
   <section class="slide">
-    <p class="eyebrow rv" style="--d:0">La solución</p>
-    <h2 class="statement rv" style="--d:1">Hippocamp</h2>
-    <p class="lead rv" style="--d:2">
+    <h2 class="statement rv" style="--d:0">Hippocamp</h2>
+    <p class="lead rv" style="--d:1">
       <strong>La memoria de tu red, antes de publicar.</strong>
       Hippocamp construye gemelos digitales de las conexiones reales del founder, entrenados con su historial de reacciones, y simula cómo respondería esa audiencia a distintas variantes de copy antes de que salgan a producción.
     </p>
     <div class="pillars">
-      <article class="pillar rv" style="--d:3">
+      <article class="pillar rv" style="--d:2">
         <h3>Gemelos de tu red real</h3>
         <p>Personas individuales construidas a partir de tus conexiones y su historial real de reacciones — no personas genéricas.</p>
       </article>
-      <article class="pillar rv" style="--d:4">
+      <article class="pillar rv" style="--d:3">
         <h3>Simulación antes de publicar</h3>
         <p>Genera y prueba múltiples variantes de copy contra esa audiencia simulada, sin exponer el post real.</p>
       </article>
-      <article class="pillar rv" style="--d:5">
+      <article class="pillar rv" style="--d:4">
         <h3>Score de engagement por variante</h3>
         <p>Compara predicciones de alcance y reacción entre versiones y elige la de mejor desempeño esperado.</p>
       </article>
     </div>
-    <p class="closer rv" style="--d:6">
-      En enero de 2026, Reach (Artificial Societies) anunció el cierre de su producto self-serve para enfocarse solo en clientes enterprise — dejando sin cobertura a founders solitarios y startups en etapa temprana.
-    </p>
-    <p class="source rv" style="--d:7">Fuente: Societies.io — Reach Update Enero 2026</p>
   </section>
 
   <!-- 4 ────────────────────────────────────────────── -->
   <section class="slide">
     <div class="split">
       <div class="col-text">
-        <p class="eyebrow rv" style="--d:0">La parte difícil</p>
-        <h2 class="statement rv" style="--d:1">Sin pedirte la <em>cookie</em> de tu cuenta.</h2>
+        <h2 class="statement rv" style="--d:0">Sin pedirte la <em>cookie</em> de tu cuenta.</h2>
         <p class="lead rv" style="--d:2">
           La lista de conexiones de LinkedIn no es pública: sacarla obliga a entregar
           las credenciales de una cuenta real. Los comentarios de tus posts sí lo son.
@@ -697,8 +657,7 @@ body{
   <section class="slide">
     <div class="split">
       <div class="col-text">
-        <p class="eyebrow rv" style="--d:0">Cómo emite el veredicto</p>
-        <h2 class="statement rv" style="--d:1">No votan. <em>Discuten.</em></h2>
+        <h2 class="statement rv" style="--d:0">No votan. <em>Discuten.</em></h2>
         <p class="lead rv" style="--d:2">
           El panel lee tu copy, comenta y se responde entre sí durante varias rondas.
           Sale un score, las objeciones agrupadas y <strong>tu copy reescrito</strong>,
@@ -728,8 +687,7 @@ body{
   <section class="slide">
     <div class="split">
       <div class="col-text">
-        <p class="eyebrow rv" style="--d:0">Lo que nos separa de un demo bonito</p>
-        <h2 class="statement statement--wide rv" style="--d:1">Te decimos qué <em>medimos</em> y qué inferimos.</h2>
+        <h2 class="statement statement--wide rv" style="--d:0">Te decimos qué <em>medimos</em> y qué inferimos.</h2>
         <p class="lead rv" style="--d:2">
           Una simulación que no declara su incertidumbre es una alucinación con gráficos.
           Cada número del reporte viene marcado con su origen.
@@ -760,8 +718,7 @@ body{
 
   <!-- 7 ────────────────────────────────────────────── -->
   <section class="slide">
-    <p class="eyebrow rv" style="--d:0">En vivo</p>
-    <h2 class="statement rv" style="--d:1">Míralo <em>correr</em>.</h2>
+    <h2 class="statement rv" style="--d:0">Míralo <em>correr</em>.</h2>
     <p class="lead rv" style="--d:2">Un link público entra. Un veredicto trazable sale. Todo esto ya está en pie:</p>
     <div class="shipped">
       <article class="chip rv" style="--d:3">
