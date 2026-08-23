@@ -403,6 +403,59 @@ body{
 }
 .stackline b{color:var(--linen);font-weight:500;}
 
+/* ── Demo stage ── */
+.slide--stage{justify-content:center;}
+.stage{
+  position:relative;
+  width:100%;
+  border:1px solid var(--edge);
+  border-radius:18px;
+  overflow:hidden;
+  background:#0c0a09;
+  box-shadow:0 28px 80px rgba(0,0,0,.4);
+}
+.stage video{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:calc(100dvh - var(--pad-y) * 2.4);
+  object-fit:contain;
+  background:#0c0a09;
+}
+.stage-play{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  margin:0;
+  padding:0;
+  border:0;
+  background:rgba(22,17,14,.22);
+  cursor:pointer;
+  transition:opacity .35s ease;
+}
+.stage-play i{
+  position:relative;
+  width:74px;height:74px;
+  border-radius:50%;
+  background:var(--terracotta);
+  box-shadow:0 10px 32px rgba(226,103,58,.38);
+}
+.stage-play i::after{
+  content:"";
+  position:absolute;
+  top:50%;left:54%;
+  width:0;height:0;
+  border-style:solid;
+  border-width:13px 0 13px 22px;
+  border-color:transparent transparent transparent var(--ink);
+  transform:translate(-50%,-50%);
+}
+.stage.is-playing .stage-play{
+  opacity:0;
+  pointer-events:none;
+}
+
 /* ── Cover + closing ── */
 .cover{align-items:flex-start;}
 .cover-mark{
@@ -607,6 +660,7 @@ body{
   .deck{height:auto;overflow:visible;}
   .slide{height:auto;min-height:0;page-break-after:always;break-after:page;}
   .rv{opacity:1;transform:none;}
+  .stage-play{display:none;}
 }
 </style>
 </head>
@@ -727,7 +781,19 @@ body{
     <p class="stackline rv" style="--d:7"><b>React</b> · <b>Express</b> · <b>Supabase</b> · <b>Prisma</b> · <b>Vercel</b> · <b>Claude</b> · <b>Apify</b></p>
   </section>
 
-  <!-- 6 ───────────────────────────────────────────── -->
+  <!-- 6 ────────────────────────────────────────────── -->
+  <section class="slide slide--stage">
+    <div class="stage rv" id="stage" style="--d:0">
+      <video id="demo" playsinline preload="auto" poster="demo.jpg">
+        <source src="demo.mp4" type="video/mp4" />
+      </video>
+      <button class="stage-play" type="button" aria-label="Reproducir demo">
+        <i></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- 7 ───────────────────────────────────────────── -->
   <section class="slide">
     <h2 class="statement rv" style="--d:0">Gracias.</h2>
     <p class="lead rv" style="--d:1">Y gracias a quien nos preste su red para la próxima corrida.</p>
@@ -761,11 +827,34 @@ body{
     ticks.forEach((t, n) => t.classList.toggle('on', n <= i));
   };
 
+  const stage = document.getElementById('stage');
+  const demo  = document.getElementById('demo');
+  const playBtn = stage.querySelector('.stage-play');
+
+  const syncStage = () => stage.classList.toggle('is-playing', !demo.paused && !demo.ended);
+  const playDemo = () => {
+    demo.muted = false;
+    const p = demo.play();
+    if (p) p.catch(() => { demo.muted = true; demo.play(); });
+  };
+  const stopDemo = () => {
+    demo.pause();
+    demo.currentTime = 0;
+    syncStage();
+  };
+  demo.addEventListener('play', syncStage);
+  demo.addEventListener('pause', syncStage);
+  demo.addEventListener('ended', syncStage);
+  playBtn.addEventListener('click', (e) => { e.stopPropagation(); playDemo(); });
+  stage.addEventListener('click', () => { demo.paused ? playDemo() : demo.pause(); });
+
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.intersectionRatio > 0.55) {
         e.target.classList.add('is-live');
         setCurrent(slides.indexOf(e.target));
+        if (e.target.contains(demo)) playDemo();
+        else stopDemo();
       }
     });
   }, { threshold: [0.55] });
@@ -777,11 +866,16 @@ body{
   };
 
   /* ── Keyboard: arrows, space, home/end ── */
-  const NEXT = new Set(['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Spacebar']);
+  const NEXT = new Set(['ArrowRight', 'ArrowDown', 'PageDown']);
   const PREV = new Set(['ArrowLeft', 'ArrowUp', 'PageUp']);
   addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
-    if (NEXT.has(e.key))      { e.preventDefault(); go(current + 1); }
+    if (e.key === ' ' || e.key === 'Spacebar') {
+      e.preventDefault();
+      if (slides[current].contains(demo)) demo.paused ? playDemo() : demo.pause();
+      else go(current + 1);
+    }
+    else if (NEXT.has(e.key)) { e.preventDefault(); go(current + 1); }
     else if (PREV.has(e.key)) { e.preventDefault(); go(current - 1); }
     else if (e.key === 'Home'){ e.preventDefault(); go(0); }
     else if (e.key === 'End') { e.preventDefault(); go(slides.length - 1); }
