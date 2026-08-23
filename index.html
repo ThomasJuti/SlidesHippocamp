@@ -463,6 +463,79 @@ body{
   color:var(--linen-dim);
 }
 
+/* ── Evidence stats (problem) ── */
+.stats{
+  margin:clamp(28px,4vh,44px) 0 0;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(10px,1.3vw,16px);
+}
+.stat{
+  padding:clamp(18px,2vw,24px) clamp(14px,1.5vw,20px);
+  border:1px solid var(--edge);
+  border-radius:14px;
+  background:var(--ink-raised);
+}
+.stat b{
+  display:block;
+  font-family:var(--serif);
+  font-size:clamp(32px,4vw,56px);
+  font-weight:400;
+  letter-spacing:-.03em;
+  line-height:.9;
+  color:var(--olive);
+}
+.stat p{
+  margin:12px 0 0;
+  font-family:var(--serif);
+  font-size:clamp(13px,1.1vw,16px);
+  line-height:1.35;
+  color:var(--linen-dim);
+}
+.closer{
+  margin:clamp(22px,3vh,34px) 0 0;
+  max-width:68ch;
+  font-family:var(--serif);
+  font-size:clamp(15px,1.35vw,20px);
+  font-style:italic;
+  line-height:1.5;
+  color:var(--linen-dim);
+}
+.source{
+  margin:14px 0 0;
+  font-size:clamp(10px,.85vw,12px);
+  letter-spacing:.04em;
+  color:var(--linen-dim);
+  opacity:.75;
+}
+
+/* ── Solution pillars ── */
+.pillars{
+  margin:clamp(28px,4vh,44px) 0 0;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(12px,1.6vw,20px);
+}
+.pillar{
+  padding:clamp(20px,2.1vw,28px) clamp(16px,1.6vw,22px);
+  border:1px solid var(--edge);
+  border-radius:14px;
+  background:transparent;
+}
+.pillar h3{
+  margin:0;
+  font-size:clamp(15px,1.25vw,18px);
+  font-weight:600;
+  letter-spacing:-.01em;
+  color:var(--linen);
+}
+.pillar p{
+  margin:10px 0 0;
+  font-size:clamp(13px,1.1vw,16px);
+  line-height:1.45;
+  color:var(--linen-dim);
+}
+
 /* ── Hint ── */
 .hint{
   position:fixed;
@@ -489,6 +562,10 @@ body{
   .slide{justify-content:flex-start;padding-top:calc(var(--pad-y) * 2.2);overflow-y:auto;}
   .turn--reply{margin-left:20px;}
   .hint{display:none;}
+  .stats,.pillars{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:600px){
+  .stats,.pillars{grid-template-columns:1fr;}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -528,66 +605,61 @@ body{
 
   <!-- 2 ────────────────────────────────────────────── -->
   <section class="slide">
-    <div class="split">
-      <div class="col-text">
-        <p class="eyebrow rv" style="--d:0">Lo que pasa hoy</p>
-        <h2 class="statement rv" style="--d:1">Publicar es apostar a <em>ciegas</em>.</h2>
-        <p class="lead rv" style="--d:2">
-          Escribes para las treinta personas que de verdad te importan. Lo publicas.
-          Y <strong>recién ahí</strong> descubres si les habló — cuando ya no puedes cambiar nada.
-        </p>
-        <p class="dismissed rv" style="--d:6">
-          <span><b>Analítica</b> <s>mide después</s></span>
-          <span><b>LLM genérico</b> <s>no conoce a nadie de tu red</s></span>
-          <span><b>Focus group</b> <s>no es tu audiencia</s></span>
-        </p>
-      </div>
-      <div class="col-art">
-        <div class="void rv" style="--d:3">
-          <p class="void-body">“Después de dos años construyendo en silencio, hoy abrimos el beta…”</p>
-          <p class="void-meta">
-            <span>Publicado<b>hace 3 h</b></span>
-            <span>Te leyó tu ICP<b>?</b></span>
-            <span>Deshacer<b>—</b></span>
-          </p>
-          <p class="void-verdict"><span class="dot dot--model"></span> El feedback llega cuando ya no sirve.</p>
-        </div>
-      </div>
+    <p class="eyebrow rv" style="--d:0">El problema</p>
+    <h2 class="statement statement--wide rv" style="--d:1">Publicar es una apuesta a ciegas para founders <em>solitarios</em>.</h2>
+    <p class="lead rv" style="--d:2">
+      Quieren visibilidad y no saben qué copy va a funcionar antes de publicarlo — y eso les cuesta tiempo, presupuesto y oportunidades.
+    </p>
+    <div class="stats">
+      <article class="stat rv" style="--d:3">
+        <b>70%+</b>
+        <p>de founders quiere construir marca personal — pero solo el 6% ejecuta</p>
+      </article>
+      <article class="stat rv" style="--d:4">
+        <b>72%</b>
+        <p>no logra crear contenido atractivo, aun destinando 45% del presupuesto a contenido</p>
+      </article>
+      <article class="stat rv" style="--d:5">
+        <b>35%</b>
+        <p>de los marketers cita lograr alto engagement como su reto #1 de contenido</p>
+      </article>
+      <article class="stat rv" style="--d:6">
+        <b>76x</b>
+        <p>más likes entre dos posts idénticos según el hook usado en el copy</p>
+      </article>
     </div>
+    <p class="closer rv" style="--d:7">
+      Sin una forma de simular cómo reaccionaría su propia red antes de publicar, deciden a ciegas — probando a mano, con presupuesto y tiempo que no tienen de sobra.
+    </p>
+    <p class="source rv" style="--d:8">Fuente: Marketing in Asia — MediaNews4U · HubSpot State of Marketing 2026 · Podawaa</p>
   </section>
 
   <!-- 3 ────────────────────────────────────────────── -->
   <section class="slide">
-    <div class="split">
-      <div class="col-text">
-        <p class="eyebrow rv" style="--d:0">Lo nuevo</p>
-        <h2 class="statement rv" style="--d:1">Un agente por cada <em>persona real</em> de tu red.</h2>
-        <p class="lead rv" style="--d:2">
-          No son arquetipos ni buyer personas inventadas. Cada agente carga el nombre,
-          el cargo, dónde estudió, de qué habla cuando publica y <strong>qué comparte contigo</strong>.
-          Esa persona lee tu copy y te responde.
-        </p>
-      </div>
-      <div class="col-art">
-        <div class="stack-cards">
-          <article class="card rv" style="--d:3">
-            <h3 class="card-name">Ana Pérez</h3>
-            <p class="card-role">CTO en Acme · SaaS · Bogotá · publica sobre contratación técnica</p>
-            <p class="card-tie"><span class="dot dot--real"></span> Uniandes · 12 conexiones en común</p>
-          </article>
-          <article class="card rv" style="--d:4">
-            <h3 class="card-name">Diego Salas</h3>
-            <p class="card-role">Head of Growth en Nube · comentó 4 de tus últimos 7 posts</p>
-            <p class="card-tie"><span class="dot dot--real"></span> Te lee y te responde hace 8 meses</p>
-          </article>
-          <article class="card rv" style="--d:5">
-            <h3 class="card-name">Laura Quintero</h3>
-            <p class="card-role">Founder · restaurantes · reacciona, nunca comenta</p>
-            <p class="card-tie"><span class="dot dot--real"></span> Coincide con tu ICP</p>
-          </article>
-        </div>
-      </div>
+    <p class="eyebrow rv" style="--d:0">La solución</p>
+    <h2 class="statement rv" style="--d:1">Hippocamp</h2>
+    <p class="lead rv" style="--d:2">
+      <strong>La memoria de tu red, antes de publicar.</strong>
+      Hippocamp construye gemelos digitales de las conexiones reales del founder, entrenados con su historial de reacciones, y simula cómo respondería esa audiencia a distintas variantes de copy antes de que salgan a producción.
+    </p>
+    <div class="pillars">
+      <article class="pillar rv" style="--d:3">
+        <h3>Gemelos de tu red real</h3>
+        <p>Personas individuales construidas a partir de tus conexiones y su historial real de reacciones — no personas genéricas.</p>
+      </article>
+      <article class="pillar rv" style="--d:4">
+        <h3>Simulación antes de publicar</h3>
+        <p>Genera y prueba múltiples variantes de copy contra esa audiencia simulada, sin exponer el post real.</p>
+      </article>
+      <article class="pillar rv" style="--d:5">
+        <h3>Score de engagement por variante</h3>
+        <p>Compara predicciones de alcance y reacción entre versiones y elige la de mejor desempeño esperado.</p>
+      </article>
     </div>
+    <p class="closer rv" style="--d:6">
+      En enero de 2026, Reach (Artificial Societies) anunció el cierre de su producto self-serve para enfocarse solo en clientes enterprise — dejando sin cobertura a founders solitarios y startups en etapa temprana.
+    </p>
+    <p class="source rv" style="--d:7">Fuente: Societies.io — Reach Update Enero 2026</p>
   </section>
 
   <!-- 4 ────────────────────────────────────────────── -->
