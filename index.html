@@ -481,30 +481,78 @@ body{
   color:var(--linen-dim);
 }
 
+.kicker{
+  margin:clamp(14px,2vh,22px) 0 0;
+  font-family:var(--serif);
+  font-size:clamp(22px,2.4vw,36px);
+  font-style:italic;
+  color:var(--linen-dim);
+}
+
 /* ── Solution pillars ── */
 .pillars{
-  margin:clamp(28px,4vh,44px) 0 0;
+  margin:clamp(40px,6vh,72px) 0 0;
+  width:100%;
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:clamp(12px,1.6vw,20px);
+  gap:clamp(14px,1.8vw,22px);
 }
 .pillar{
-  padding:clamp(20px,2.1vw,28px) clamp(16px,1.6vw,22px);
+  padding:clamp(28px,3.2vw,44px) clamp(18px,2vw,28px) clamp(24px,2.6vw,36px);
   border:1px solid var(--edge);
-  border-radius:14px;
-  background:transparent;
+  border-radius:18px;
+  background:var(--ink-raised);
+  text-align:left;
 }
+.mark{
+  height:56px;
+  margin:0 0 22px;
+  position:relative;
+}
+.mark--twins i{
+  position:absolute;
+  top:8px;
+  width:34px;height:34px;
+  border-radius:50%;
+  border:2px solid var(--olive);
+  background:var(--ink-raised);
+}
+.mark--twins i:nth-child(1){left:0;background:var(--olive);}
+.mark--twins i:nth-child(2){left:18px;}
+.mark--twins i:nth-child(3){left:36px;}
+.mark--sim i{
+  position:absolute;
+  left:8px;top:50%;
+  border:2px solid var(--terracotta);
+  border-radius:50%;
+  transform:translateY(-50%);
+}
+.mark--sim i:first-child{width:22px;height:22px;left:18px;opacity:.45;}
+.mark--sim i:last-child{width:38px;height:38px;left:10px;}
+.mark--score{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  font-family:var(--serif);
+  font-size:42px;
+  line-height:1;
+  color:var(--linen-dim);
+  letter-spacing:-.04em;
+}
+.mark--score span{color:var(--terracotta);font-size:52px;}
 .pillar h3{
   margin:0;
-  font-size:clamp(15px,1.25vw,18px);
-  font-weight:600;
-  letter-spacing:-.01em;
+  font-family:var(--serif);
+  font-size:clamp(26px,2.4vw,34px);
+  font-weight:400;
+  letter-spacing:-.02em;
+  line-height:1.1;
   color:var(--linen);
 }
 .pillar p{
   margin:10px 0 0;
-  font-size:clamp(13px,1.1vw,16px);
-  line-height:1.45;
+  font-size:clamp(14px,1.15vw,17px);
+  line-height:1.35;
   color:var(--linen-dim);
 }
 
@@ -577,23 +625,20 @@ body{
   <!-- 2 ────────────────────────────────────────────── -->
   <section class="slide">
     <h2 class="statement statement--wide rv" style="--d:0">Publicar es una apuesta a ciegas para founders <em>solitarios</em>.</h2>
-    <p class="lead rv" style="--d:1">
-      Quieren visibilidad y no saben qué copy va a funcionar antes de publicarlo — y eso les cuesta tiempo, presupuesto y oportunidades.
-    </p>
     <div class="stats">
-      <article class="stat rv" style="--d:2">
+      <article class="stat rv" style="--d:1">
         <b>70%+</b>
         <p>de founders quiere construir marca personal — pero solo el 6% ejecuta</p>
       </article>
-      <article class="stat rv" style="--d:3">
+      <article class="stat rv" style="--d:2">
         <b>72%</b>
         <p>no logra crear contenido atractivo, aun destinando 45% del presupuesto a contenido</p>
       </article>
-      <article class="stat rv" style="--d:4">
+      <article class="stat rv" style="--d:3">
         <b>35%</b>
         <p>de los marketers cita lograr alto engagement como su reto #1 de contenido</p>
       </article>
-      <article class="stat rv" style="--d:5">
+      <article class="stat rv" style="--d:4">
         <b>76x</b>
         <p>más likes entre dos posts idénticos según el hook usado en el copy</p>
       </article>
@@ -603,22 +648,26 @@ body{
   <!-- 3 ────────────────────────────────────────────── -->
   <section class="slide">
     <h2 class="statement rv" style="--d:0">Hippocamp</h2>
-    <p class="lead rv" style="--d:1">
-      <strong>La memoria de tu red, antes de publicar.</strong>
-      Hippocamp construye gemelos digitales de las conexiones reales del founder, entrenados con su historial de reacciones, y simula cómo respondería esa audiencia a distintas variantes de copy antes de que salgan a producción.
-    </p>
+    <p class="kicker rv" style="--d:1">La memoria de tu red, antes de publicar.</p>
     <div class="pillars">
       <article class="pillar rv" style="--d:2">
-        <h3>Gemelos de tu red real</h3>
-        <p>Personas individuales construidas a partir de tus conexiones y su historial real de reacciones — no personas genéricas.</p>
+        <div class="mark mark--twins" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </div>
+        <h3>Gemelos de tu red</h3>
+        <p>Un agente por persona real. No un arquetipo.</p>
       </article>
       <article class="pillar rv" style="--d:3">
-        <h3>Simulación antes de publicar</h3>
-        <p>Genera y prueba múltiples variantes de copy contra esa audiencia simulada, sin exponer el post real.</p>
+        <div class="mark mark--sim" aria-hidden="true">
+          <i></i><i></i>
+        </div>
+        <h3>Simula primero</h3>
+        <p>El post no sale. La red ya respondió.</p>
       </article>
       <article class="pillar rv" style="--d:4">
-        <h3>Score de engagement por variante</h3>
-        <p>Compara predicciones de alcance y reacción entre versiones y elige la de mejor desempeño esperado.</p>
+        <div class="mark mark--score" aria-hidden="true">A<span>B</span></div>
+        <h3>Score por variante</h3>
+        <p>Te quedas con la que rinde.</p>
       </article>
     </div>
   </section>
