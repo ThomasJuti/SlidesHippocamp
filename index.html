@@ -555,6 +555,14 @@ body{
   line-height:1.35;
   color:var(--linen-dim);
 }
+.chip-k{
+  margin:0 0 14px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--olive);
+}
 
 /* ── Hint ── */
 .hint{
@@ -674,65 +682,46 @@ body{
 
   <!-- 4 ────────────────────────────────────────────── -->
   <section class="slide">
-    <div class="split">
-      <div class="col-text">
-        <h2 class="statement statement--wide rv" style="--d:0">El copy se mueve por <em>tu</em> grafo. No por una lista.</h2>
-        <p class="lead rv" style="--d:2">
-          Un follow de 2019 no es una lectura. Quien te comenta no pesa igual que
-          quien te aceptó y desapareció. Hippocamp arma el panel con la geometría
-          real de la red: <strong>primer grado, segundo grado y la temperatura
-          de cada vínculo</strong>.
-        </p>
-      </div>
-      <div class="col-art">
-        <div class="flow">
-          <div class="flow-step rv" style="--d:3">
-            <span class="flow-k">Grado 1</span>
-            <p class="flow-v">Quienes reaccionan y comentan tus posts<small>La gente que ya te lee. Esos gemelos entran al panel con nombre, cargo e historial.</small></p>
-          </div>
-          <div class="flow-step rv" style="--d:4">
-            <span class="flow-k">Grado 2</span>
-            <p class="flow-v">A quién prestan atención ellos<small>El copy no se queda en tu inbox: viaja por la segunda corona, las personas que ellos sí escuchan.</small></p>
-          </div>
-          <div class="flow-step rv" style="--d:5">
-            <span class="flow-k">Señal</span>
-            <p class="flow-v">Cada arista tiene temperatura medida<small>Likes, comentarios, recencia. Un vínculo frío no entra al jurado como si fuera un lector.</small></p>
-          </div>
-        </div>
-      </div>
+    <h2 class="statement statement--wide rv" style="--d:0">Tu red. No una lista.</h2>
+    <div class="pillars">
+      <article class="pillar rv" style="--d:1">
+        <p class="chip-k">Grado 1</p>
+        <h3>Quien ya te lee</h3>
+        <p>Los que reaccionan y comentan. Esos gemelos entran al panel.</p>
+      </article>
+      <article class="pillar rv" style="--d:2">
+        <p class="chip-k">Grado 2</p>
+        <h3>A quién leen ellos</h3>
+        <p>El copy viaja por esa segunda corona. Ahí se gana o se pierde.</p>
+      </article>
+      <article class="pillar rv" style="--d:3">
+        <p class="chip-k">Señal</p>
+        <h3>Quién pesa de verdad</h3>
+        <p>Likes, comentarios, recencia. Un follow frío no cuenta como lector.</p>
+      </article>
     </div>
   </section>
 
   <!-- 5 ────────────────────────────────────────────── -->
   <section class="slide">
-    <div class="split">
-      <div class="col-text">
-        <h2 class="statement statement--wide rv" style="--d:0">Te decimos qué <em>medimos</em> y qué inferimos.</h2>
-        <p class="lead rv" style="--d:2">
-          Una simulación que no declara su incertidumbre es una alucinación con gráficos.
-          Cada número del reporte viene marcado con su origen.
-        </p>
-      </div>
-      <div class="col-art">
-        <div class="rules">
-          <div class="rule rv" style="--d:3">
-            <span class="dot dot--model"></span>
-            <p><span class="key">convergio: false</span> es un hallazgo, no un error. <span>Corremos el panel varias veces: si las corridas cruzan bandas, tu copy es un caso borde y el número no se sostiene.</span></p>
-          </div>
-          <div class="rule rv" style="--d:4">
-            <span class="dot dot--real"></span>
-            <p><span class="key key--real">null</span> nunca es <span class="key key--real">0</span>. <span>“No medido” y “medido en cero” no son lo mismo, y confundirlos inventa datos.</span></p>
-          </div>
-          <div class="rule rv" style="--d:5">
-            <span class="dot dot--model"></span>
-            <p><span class="key">calibrated: false</span> cuando no hay historial. <span>El motor separa la tasa base observada del modificador que juzga el modelo, para saber cuál de las dos falla.</span></p>
-          </div>
-        </div>
-        <p class="legend rv" style="--d:6">
-          <span><span class="dot dot--real"></span> Dato observado</span>
-          <span><span class="dot dot--model"></span> Juicio del modelo</span>
-        </p>
-      </div>
+    <h2 class="statement statement--wide rv" style="--d:0">No vendemos un modelo. Vendemos el <em>ensayo</em>.</h2>
+    <p class="kicker rv" style="--d:1">Antes de publicar. Con tu red. Sin quemar el post.</p>
+    <div class="pillars">
+      <article class="pillar rv" style="--d:2">
+        <p class="chip-k">Para quién</p>
+        <h3>El founder solo</h3>
+        <p>Quiere marca personal y no tiene equipo de contenido.</p>
+      </article>
+      <article class="pillar rv" style="--d:3">
+        <p class="chip-k">Qué compras</p>
+        <h3>Un ensayo privado</h3>
+        <p>Ves quién se frena — y por qué — antes de que lo vea LinkedIn.</p>
+      </article>
+      <article class="pillar rv" style="--d:4">
+        <p class="chip-k">Por qué queda</p>
+        <h3>El copy que pega</h3>
+        <p>Variantes, score, eliges. El resto no sale.</p>
+      </article>
     </div>
   </section>
 
