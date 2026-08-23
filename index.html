@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Hippocamp — Antes de publicar, escucha</title>
+<meta name="description" content="Un agente por cada persona real de tu red lee tu post antes de que lo publiques. Platanus Hack 26 · team-27." />
+<meta name="theme-color" content="#16110e" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Hippocamp — pitch deck
+   Palette derives from the product's linen/terracotta identity,
+   inverted for dark rooms and broadcast gamma.
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --ink:#16110e;
+  --ink-raised:#1f1815;
+  --linen:#f4ede1;
+  --linen-dim:#a8998a;
+  --terracotta:#e2673a;
+  --olive:#8fa37e;
+  --edge:rgba(244,237,225,.13);
+  --edge-strong:rgba(244,237,225,.26);
+
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --sans:'Archivo','Helvetica Neue',Arial,sans-serif;
+
+  --pad-x:clamp(28px,6vw,120px);
+  --pad-y:clamp(28px,5vh,72px);
+
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;height:100%;}
+body{
+  background:var(--ink);
+  color:var(--linen);
+  font-family:var(--sans);
+  font-synthesis:none;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+
+/* ── Ambient network: the product itself, kept behind the type ── */
+#net{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+  opacity:.55;
+}
+
+/* ── Deck mechanics ── */
+.deck{
+  position:relative;
+  z-index:1;
+  height:100dvh;
+  overflow-y:scroll;
+  scroll-snap-type:y mandatory;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+
+.slide{
+  position:relative;
+  height:100dvh;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+  padding:var(--pad-y) var(--pad-x);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+/* ── Reveal ── */
+.rv{
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1);
+  transition-delay:calc(var(--d,0) * 80ms);
+}
+.slide.is-live .rv{opacity:1;transform:none;}
+
+/* ── Type scale ── */
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0 0 clamp(20px,3vh,34px);
+  font-size:clamp(11px,1.05vw,14px);
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--linen-dim);
+}
+.eyebrow b{color:var(--linen);font-weight:600;}
+
+.statement{
+  margin:0;
+  max-width:16ch;
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(46px,7.4vw,124px);
+  line-height:.94;
+  letter-spacing:-.032em;
+  text-wrap:balance;
+}
+.statement em{font-style:italic;color:var(--terracotta);}
+.statement--wide{max-width:20ch;}
+
+.lead{
+  margin:clamp(22px,3.4vh,38px) 0 0;
+  max-width:56ch;
+  font-size:clamp(16px,1.55vw,25px);
+  line-height:1.55;
+  color:var(--linen-dim);
+  text-wrap:pretty;
+}
+.lead strong{color:var(--linen);font-weight:500;}
+
+/* ── Two-column composition ── */
+.split{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.85fr);
+  gap:clamp(32px,5vw,90px);
+  align-items:center;
+}
+.split > .col-text{min-width:0;}
+.split > .col-art{min-width:0;}
+
+/* ── Chrome: header + spine ── */
+.chrome-top{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:3;
+  height:var(--pad-y);
+  padding:0 var(--pad-x);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:clamp(10px,.85vw,12.5px);
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--linen-dim);
+  pointer-events:none;
+}
+.wordmark{display:inline-flex;align-items:center;gap:9px;color:var(--linen);letter-spacing:-.02em;text-transform:none;font-size:1.25em;}
+.wordmark i{
+  width:1.9em;height:1.9em;
+  display:grid;place-items:center;
+  border-radius:.62em .28em .62em .28em;
+  background:var(--linen);color:var(--ink);
+  font-family:var(--serif);font-style:normal;font-size:.86em;
+  transform:rotate(-3deg);
+}
+
+.spine{
+  position:fixed;
+  left:var(--pad-x);right:var(--pad-x);
+  bottom:calc(var(--pad-y) * .5);
+  z-index:3;
+  display:flex;
+  gap:6px;
+  pointer-events:none;
+}
+.spine span{
+  flex:1;
+  height:2px;
+  background:var(--edge);
+  transition:background .45s ease;
+}
+.spine span.on{background:var(--terracotta);}
+
+/* ── Provenance legend: olive = measured, terracotta = inferred ── */
+.dot{
+  width:9px;height:9px;flex:0 0 auto;
+  border-radius:50%;
+  display:inline-block;
+}
+.dot--real{background:var(--olive);box-shadow:0 0 0 4px rgba(143,163,126,.16);}
+.dot--model{background:var(--terracotta);box-shadow:0 0 0 4px rgba(226,103,58,.16);}
+
+/* ── Cards ── */
+.card{
+  padding:clamp(18px,1.9vw,26px);
+  background:var(--ink-raised);
+  border:1px solid var(--edge);
+  border-radius:16px;
+}
+.card-name{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(21px,1.85vw,30px);
+  line-height:1.1;
+  letter-spacing:-.02em;
+}
+.card-role{
+  margin:5px 0 0;
+  font-size:clamp(12.5px,1.05vw,16px);
+  line-height:1.4;
+  color:var(--linen-dim);
+}
+.card-tie{
+  margin:14px 0 0;
+  padding-top:13px;
+  border-top:1px solid var(--edge);
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:clamp(11.5px,.95vw,14.5px);
+  color:var(--linen);
+}
+.stack-cards{display:grid;gap:12px;}
+
+/* ── Void card (problem slide) ── */
+.void{
+  padding:clamp(20px,2.2vw,30px);
+  border:1px solid var(--edge);
+  border-radius:16px;
+  background:var(--ink-raised);
+}
+.void-body{
+  margin:0;
+  font-size:clamp(14px,1.2vw,18px);
+  line-height:1.6;
+  color:var(--linen);
+}
+.void-meta{
+  margin:clamp(20px,2.4vw,30px) 0 0;
+  padding-top:15px;
+  border-top:1px solid var(--edge);
+  display:flex;
+  gap:clamp(20px,3vw,44px);
+  font-size:clamp(11px,.9vw,13.5px);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--linen-dim);
+}
+.void-meta b{
+  display:block;
+  margin-top:6px;
+  font-family:var(--serif);
+  font-size:clamp(24px,2.4vw,38px);
+  font-weight:400;
+  letter-spacing:-.02em;
+  color:var(--linen);
+  text-transform:none;
+}
+.void-verdict{
+  margin:clamp(16px,2vh,24px) 0 0;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:clamp(12px,1vw,15px);
+  color:var(--terracotta);
+}
+
+/* ── Struck-out alternatives ── */
+.dead{
+  padding:clamp(16px,1.7vw,24px) clamp(18px,1.9vw,26px);
+  border:1px solid var(--edge);
+  border-radius:14px;
+}
+.dead + .dead{margin-top:12px;}
+.dead h3{
+  margin:0;
+  font-size:clamp(14px,1.2vw,19px);
+  font-weight:600;
+  letter-spacing:-.01em;
+  color:var(--linen-dim);
+  text-decoration:line-through;
+  text-decoration-color:var(--terracotta);
+  text-decoration-thickness:1.5px;
+}
+.dead p{
+  margin:8px 0 0;
+  font-size:clamp(12.5px,1.05vw,16px);
+  line-height:1.5;
+  color:var(--linen-dim);
+}
+
+/* ── Sequenced flow (extraction) ── */
+.flow{display:grid;gap:0;}
+.flow-step{
+  padding:clamp(14px,1.6vw,22px) 0;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:clamp(14px,1.5vw,22px);
+  align-items:baseline;
+  border-top:1px solid var(--edge);
+}
+.flow-step:last-child{border-bottom:1px solid var(--edge);}
+.flow-k{
+  font-size:clamp(10.5px,.85vw,12.5px);
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--linen-dim);
+  white-space:nowrap;
+}
+.flow-v{
+  margin:0;
+  font-size:clamp(14px,1.25vw,19.5px);
+  line-height:1.45;
+  color:var(--linen);
+}
+.flow-v small{
+  display:block;
+  margin-top:5px;
+  font-size:.78em;
+  color:var(--linen-dim);
+}
+.flow-step--muted .flow-v{color:var(--linen-dim);}
+
+/* ── Deliberation thread ── */
+.thread{display:grid;gap:11px;}
+.turn{
+  padding:clamp(13px,1.4vw,19px) clamp(15px,1.6vw,22px);
+  border:1px solid var(--edge);
+  border-radius:14px;
+  background:var(--ink-raised);
+}
+.turn--reply{margin-left:clamp(20px,3.5vw,64px);border-color:var(--edge-strong);}
+.turn-who{
+  margin:0 0 7px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:clamp(10.5px,.88vw,13px);
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--linen-dim);
+}
+.turn-say{
+  margin:0;
+  font-size:clamp(13.5px,1.15vw,18px);
+  line-height:1.5;
+  color:var(--linen);
+}
+
+/* ── Honesty rules ── */
+.rules{display:grid;gap:clamp(12px,1.6vh,20px);}
+.rule{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:clamp(12px,1.4vw,18px);
+  align-items:start;
+}
+.rule .dot{margin-top:.55em;}
+.rule p{
+  margin:0;
+  font-size:clamp(14px,1.25vw,20px);
+  line-height:1.5;
+  color:var(--linen);
+}
+.rule p span{color:var(--linen-dim);}
+.key{
+  font-family:var(--sans);
+  font-weight:600;
+  color:var(--terracotta);
+  letter-spacing:-.01em;
+}
+.key--real{color:var(--olive);}
+
+.legend{
+  margin:clamp(24px,3.4vh,40px) 0 0;
+  padding-top:clamp(16px,2vh,22px);
+  border-top:1px solid var(--edge);
+  display:flex;
+  flex-wrap:wrap;
+  gap:clamp(16px,2.4vw,34px);
+  font-size:clamp(11.5px,.95vw,14.5px);
+  color:var(--linen-dim);
+}
+.legend span{display:inline-flex;align-items:center;gap:9px;}
+
+/* ── Shipped chips ── */
+.shipped{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));
+  gap:12px;
+  margin:clamp(26px,3.6vh,44px) 0 0;
+}
+.chip{
+  padding:clamp(15px,1.6vw,21px);
+  border:1px solid var(--edge);
+  border-radius:14px;
+  background:var(--ink-raised);
+}
+.chip h3{
+  margin:0;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:clamp(13px,1.1vw,17px);
+  font-weight:600;
+  letter-spacing:-.01em;
+}
+.chip p{
+  margin:8px 0 0;
+  font-size:clamp(11.5px,.98vw,14.5px);
+  line-height:1.45;
+  color:var(--linen-dim);
+}
+.stackline{
+  margin:clamp(22px,3vh,34px) 0 0;
+  font-size:clamp(11.5px,1vw,15px);
+  letter-spacing:.05em;
+  color:var(--linen-dim);
+}
+.stackline b{color:var(--linen);font-weight:500;}
+
+/* ── Cover + closing ── */
+.cover{align-items:flex-start;}
+.cover-mark{
+  margin:0;
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(64px,13vw,220px);
+  line-height:.86;
+  letter-spacing:-.045em;
+}
+.cover-line{
+  margin:clamp(24px,3.4vh,42px) 0 0;
+  font-family:var(--serif);
+  font-size:clamp(26px,3.6vw,60px);
+  line-height:1.1;
+  letter-spacing:-.025em;
+  color:var(--linen-dim);
+}
+.cover-line em{font-style:italic;color:var(--terracotta);}
+.cover-foot{
+  margin:clamp(34px,5vh,64px) 0 0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 26px;
+  font-size:clamp(11px,.95vw,14px);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--linen-dim);
+}
+
+.thanks-team{
+  margin:clamp(30px,4.4vh,56px) 0 0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px clamp(18px,2.6vw,38px);
+  font-size:clamp(13px,1.2vw,19px);
+  color:var(--linen);
+}
+.thanks-team span{white-space:nowrap;}
+.thanks-foot{
+  margin:clamp(24px,3.4vh,40px) 0 0;
+  font-size:clamp(11px,.95vw,14px);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--linen-dim);
+}
+
+/* ── Demo interstitial ── */
+.demo{align-items:center;text-align:center;}
+.demo .statement{max-width:none;}
+.demo .eyebrow{justify-content:center;}
+.demo .lead{margin-left:auto;margin-right:auto;text-align:center;}
+
+/* ── Hint ── */
+.hint{
+  position:fixed;
+  right:var(--pad-x);
+  bottom:calc(var(--pad-y) * .5 + 14px);
+  z-index:3;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--linen-dim);
+  opacity:.75;
+  transition:opacity .5s ease;
+  pointer-events:none;
+}
+.hint.gone{opacity:0;}
+
+/* ── Focus ── */
+:focus-visible{outline:2px solid var(--terracotta);outline-offset:4px;}
+
+/* ── Narrow screens: stack the compositions ── */
+@media (max-width:900px){
+  .split{grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vh,36px);}
+  .statement{max-width:none;}
+  .slide{justify-content:flex-start;padding-top:calc(var(--pad-y) * 2.2);overflow-y:auto;}
+  .turn--reply{margin-left:20px;}
+  .hint{display:none;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .deck{scroll-behavior:auto;}
+  .rv{transition:none;opacity:1;transform:none;}
+}
+
+@media print{
+  body{overflow:visible;background:#fff;}
+  #net,.hint,.spine{display:none;}
+  .deck{height:auto;overflow:visible;}
+  .slide{height:auto;min-height:0;page-break-after:always;break-after:page;}
+  .rv{opacity:1;transform:none;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="net" aria-hidden="true"></canvas>
+
+<header class="chrome-top">
+  <span class="wordmark"><i>H</i>Hippocamp</span>
+  <span>Platanus Hack 26 · team-27</span>
+</header>
+
+<main class="deck" id="deck" tabindex="-1">
+
+  <!-- 1 ────────────────────────────────────────────── -->
+  <section class="slide cover">
+    <p class="eyebrow rv" style="--d:0">Track <b>Simulaciones</b> · Bogotá</p>
+    <h1 class="cover-mark rv" style="--d:1">Hippocamp</h1>
+    <p class="cover-line rv" style="--d:2">Antes de publicar,<br /><em>escucha.</em></p>
+    <p class="cover-foot rv" style="--d:4">
+      <span>Tu red real, convertida en jurado</span>
+    </p>
+  </section>
+
+  <!-- 2 ────────────────────────────────────────────── -->
+  <section class="slide">
+    <div class="split">
+      <div class="col-text">
+        <p class="eyebrow rv" style="--d:0">Lo que pasa hoy</p>
+        <h2 class="statement rv" style="--d:1">Publicar es apostar a <em>ciegas</em>.</h2>
+        <p class="lead rv" style="--d:2">
+          Escribes para las treinta personas que de verdad te importan. Lo publicas.
+          Y <strong>recién ahí</strong> descubres si les habló — cuando ya no puedes cambiar nada.
+        </p>
+      </div>
+      <div class="col-art">
+        <div class="void rv" style="--d:3">
+          <p class="void-body">“Después de dos años construyendo en silencio, hoy abrimos el beta…”</p>
+          <p class="void-meta">
+            <span>Publicado<b>hace 3 h</b></span>
+            <span>Te leyó tu ICP<b>?</b></span>
+            <span>Deshacer<b>—</b></span>
+          </p>
+          <p class="void-verdict"><span class="dot dot--model"></span> El feedback llega cuando ya no sirve.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 ────────────────────────────────────────────── -->
+  <section class="slide">
+    <div class="split">
+      <div class="col-text">
+        <p class="eyebrow rv" style="--d:0">Por qué sigue sin resolverse</p>
+        <h2 class="statement statement--wide rv" style="--d:1">Los focus groups existen. Tu <em>audiencia</em> no está en ellos.</h2>
+        <p class="lead rv" style="--d:2">
+          Lo que decide si tu mensaje funciona no es un promedio de mercado:
+          es <strong>quién específicamente</strong> lo va a abrir en su feed.
+          Y esa lista no la tiene ninguna herramienta.
+        </p>
+      </div>
+      <div class="col-art">
+        <div class="dead rv" style="--d:3">
+          <h3>Analítica de LinkedIn</h3>
+          <p>Mide después de publicar. Te dice qué pasó, no qué va a pasar.</p>
+        </div>
+        <div class="dead rv" style="--d:4">
+          <h3>Pedirle feedback a un LLM</h3>
+          <p>Te responde un “marketero promedio” que no conoce a una sola persona de tu red.</p>
+        </div>
+        <div class="dead rv" style="--d:5">
+          <h3>Encuestas y focus groups</h3>
+          <p>Semanas y presupuesto para reclutar gente que no es tu audiencia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 ────────────────────────────────────────────── -->
+  <section class="slide">
+    <div class="split">
+      <div class="col-text">
+        <p class="eyebrow rv" style="--d:0">Lo nuevo</p>
+        <h2 class="statement rv" style="--d:1">Un agente por cada <em>persona real</em> de tu red.</h2>
+        <p class="lead rv" style="--d:2">
+          No son arquetipos ni buyer personas inventadas. Cada agente carga el nombre,
+          el cargo, dónde estudió, de qué habla cuando publica y <strong>qué comparte contigo</strong>.
+          Esa persona lee tu copy y te responde.
+        </p>
+      </div>
+      <div class="col-art">
+        <div class="stack-cards">
+          <article class="card rv" style="--d:3">
+            <h3 class="card-name">Ana Pérez</h3>
+            <p class="card-role">CTO en Acme · SaaS · Bogotá · publica sobre contratación técnica</p>
+            <p class="card-tie"><span class="dot dot--real"></span> Uniandes · 12 conexiones en común</p>
+          </article>
+          <article class="card rv" style="--d:4">
+            <h3 class="card-name">Diego Salas</h3>
+            <p class="card-role">Head of Growth en Nube · comentó 4 de tus últimos 7 posts</p>
+            <p class="card-tie"><span class="dot dot--real"></span> Te lee y te responde hace 8 meses</p>
+          </article>
+          <article class="card rv" style="--d:5">
+            <h3 class="card-name">Laura Quintero</h3>
+            <p class="card-role">Founder · restaurantes · reacciona, nunca comenta</p>
+            <p class="card-tie"><span class="dot dot--real"></span> Coincide con tu ICP</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 ────────────────────────────────────────────── -->
+  <section class="slide">
+    <div class="split">
+      <div class="col-text">
+        <p class="eyebrow rv" style="--d:0">La parte difícil</p>
+        <h2 class="statement rv" style="--d:1">Sin pedirte la <em>cookie</em> de tu cuenta.</h2>
+        <p class="lead rv" style="--d:2">
+          La lista de conexiones de LinkedIn no es pública: sacarla obliga a entregar
+          las credenciales de una cuenta real. Los comentarios de tus posts sí lo son.
+          Reconstruimos la red desde ahí — y resulta <strong>mejor señal</strong>.
+        </p>
+      </div>
+      <div class="col-art">
+        <div class="flow">
+          <div class="flow-step rv" style="--d:3">
+            <span class="flow-k">Entra</span>
+            <p class="flow-v">Un link público de perfil<small>Nada más. Sin login, sin extensión, sin credenciales.</small></p>
+          </div>
+          <div class="flow-step rv" style="--d:4">
+            <span class="flow-k">Se lee</span>
+            <p class="flow-v">Quién comenta y reacciona en tus posts<small>La lista de conexiones dice quién te aceptó en 2019. El engagement dice quién te lee hoy.</small></p>
+          </div>
+          <div class="flow-step rv" style="--d:5">
+            <span class="flow-k">Sale</span>
+            <p class="flow-v">Un grafo con temperatura medida, no modelada<small>La cercanía de cada contacto es el conteo real de sus interacciones.</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 ────────────────────────────────────────────── -->
+  <section class="slide">
+    <div class="split">
+      <div class="col-text">
+        <p class="eyebrow rv" style="--d:0">Cómo emite el veredicto</p>
+        <h2 class="statement rv" style="--d:1">No votan. <em>Discuten.</em></h2>
+        <p class="lead rv" style="--d:2">
+          El panel lee tu copy, comenta y se responde entre sí durante varias rondas.
+          Sale un score, las objeciones agrupadas y <strong>tu copy reescrito</strong>,
+          anclado a lo que objetaron. Turno por turno, con el prompt exacto que recibió cada agente.
+        </p>
+      </div>
+      <div class="col-art">
+        <div class="thread">
+          <article class="turn rv" style="--d:3">
+            <p class="turn-who"><span class="dot dot--model"></span> Ana · ronda 1</p>
+            <p class="turn-say">“Dos años en silencio” me suena a excusa. ¿Qué construyeron?</p>
+          </article>
+          <article class="turn turn--reply rv" style="--d:4">
+            <p class="turn-who"><span class="dot dot--model"></span> Diego · ronda 2</p>
+            <p class="turn-say">Coincido con Ana. Yo abriría con el número, no con el proceso.</p>
+          </article>
+          <article class="turn rv" style="--d:5">
+            <p class="turn-who"><span class="dot dot--model"></span> Laura · ronda 2</p>
+            <p class="turn-say">A mí “beta” me frena. No sé si me sirve hoy o en seis meses.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 ────────────────────────────────────────────── -->
+  <section class="slide">
+    <div class="split">
+      <div class="col-text">
+        <p class="eyebrow rv" style="--d:0">Lo que nos separa de un demo bonito</p>
+        <h2 class="statement statement--wide rv" style="--d:1">Te decimos qué <em>medimos</em> y qué inferimos.</h2>
+        <p class="lead rv" style="--d:2">
+          Una simulación que no declara su incertidumbre es una alucinación con gráficos.
+          Cada número del reporte viene marcado con su origen.
+        </p>
+      </div>
+      <div class="col-art">
+        <div class="rules">
+          <div class="rule rv" style="--d:3">
+            <span class="dot dot--model"></span>
+            <p><span class="key">convergio: false</span> es un hallazgo, no un error. <span>Corremos el panel varias veces: si las corridas cruzan bandas, tu copy es un caso borde y el número no se sostiene.</span></p>
+          </div>
+          <div class="rule rv" style="--d:4">
+            <span class="dot dot--real"></span>
+            <p><span class="key key--real">null</span> nunca es <span class="key key--real">0</span>. <span>“No medido” y “medido en cero” no son lo mismo, y confundirlos inventa datos.</span></p>
+          </div>
+          <div class="rule rv" style="--d:5">
+            <span class="dot dot--model"></span>
+            <p><span class="key">calibrated: false</span> cuando no hay historial. <span>El motor separa la tasa base observada del modificador que juzga el modelo, para saber cuál de las dos falla.</span></p>
+          </div>
+        </div>
+        <p class="legend rv" style="--d:6">
+          <span><span class="dot dot--real"></span> Dato observado</span>
+          <span><span class="dot dot--model"></span> Juicio del modelo</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 ────────────────────────────────────────────── -->
+  <section class="slide demo">
+    <p class="eyebrow rv" style="--d:0">En vivo</p>
+    <h2 class="statement rv" style="--d:1">Míralo <em>correr</em>.</h2>
+    <p class="lead rv" style="--d:2">Un link público entra. Un veredicto trazable sale.</p>
+  </section>
+
+  <!-- 9 ────────────────────────────────────────────── -->
+  <section class="slide">
+    <p class="eyebrow rv" style="--d:0">Hasta dónde llegamos</p>
+    <h2 class="statement statement--wide rv" style="--d:1">Punta a punta, <em>corriendo</em>.</h2>
+    <div class="shipped">
+      <article class="chip rv" style="--d:2">
+        <h3><span class="dot dot--real"></span> Extracción de red</h3>
+        <p>Tres fuentes con fallback. Sin credenciales en la ruta principal.</p>
+      </article>
+      <article class="chip rv" style="--d:3">
+        <h3><span class="dot dot--real"></span> Enriquecimiento</h3>
+        <p>Perfiles reales pegados a la red, con presupuesto donde cambia una decisión.</p>
+      </article>
+      <article class="chip rv" style="--d:4">
+        <h3><span class="dot dot--model"></span> Panel deliberativo</h3>
+        <p>Rondas, objeciones, dispersión entre corridas y copy reescrito.</p>
+      </article>
+      <article class="chip rv" style="--d:5">
+        <h3><span class="dot dot--model"></span> Motor de predicción</h3>
+        <p>Tasa base calibrada por historial × modificador de contenido, separados.</p>
+      </article>
+    </div>
+    <p class="stackline rv" style="--d:6"><b>React</b> · <b>Express</b> · <b>Supabase</b> · <b>Prisma</b> · <b>Vercel</b> · <b>Claude</b> · <b>Apify</b></p>
+  </section>
+
+  <!-- 10 ───────────────────────────────────────────── -->
+  <section class="slide">
+    <h2 class="statement rv" style="--d:0">Gracias.</h2>
+    <p class="lead rv" style="--d:1">Y gracias a quien nos preste su red para la próxima corrida.</p>
+    <p class="thanks-team rv" style="--d:2">
+      <span>Andrés Sanabria</span>
+      <span>Thomas Jutinico</span>
+      <span>Juan Camilo Mesa</span>
+      <span>Juan Nicolás Torrente</span>
+      <span>Bryan Riaño</span>
+    </p>
+    <p class="thanks-foot rv" style="--d:3">team-27 · Platanus Hack 26 · Bogotá</p>
+  </section>
+
+</main>
+
+<nav class="spine" id="spine" aria-hidden="true"></nav>
+<p class="hint" id="hint">← → para avanzar</p>
+
+<script>
+(() => {
+  const deck   = document.getElementById('deck');
+  const slides = Array.from(deck.querySelectorAll('.slide'));
+  const spine  = document.getElementById('spine');
+  const hint   = document.getElementById('hint');
+
+  /* ── Spine: position without numbering it ── */
+  slides.forEach(() => spine.appendChild(document.createElement('span')));
+  const ticks = Array.from(spine.children);
+  let current = 0;
+
+  const setCurrent = (i) => {
+    current = i;
+    ticks.forEach((t, n) => t.classList.toggle('on', n <= i));
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.intersectionRatio > 0.55) {
+        e.target.classList.add('is-live');
+        setCurrent(slides.indexOf(e.target));
+      }
+    });
+  }, { threshold: [0.55] });
+  slides.forEach((s) => io.observe(s));
+
+  const go = (i) => {
+    const target = Math.max(0, Math.min(slides.length - 1, i));
+    slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  /* ── Keyboard: arrows, space, home/end ── */
+  const NEXT = new Set(['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Spacebar']);
+  const PREV = new Set(['ArrowLeft', 'ArrowUp', 'PageUp']);
+  addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (NEXT.has(e.key))      { e.preventDefault(); go(current + 1); }
+    else if (PREV.has(e.key)) { e.preventDefault(); go(current - 1); }
+    else if (e.key === 'Home'){ e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(slides.length - 1); }
+    else return;
+    hint.classList.add('gone');
+  });
+  setTimeout(() => hint.classList.add('gone'), 6000);
+
+  /* ── Ambient network: the product, kept quiet ── */
+  const canvas = document.getElementById('net');
+  const ctx = canvas.getContext('2d');
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let nodes = [], w = 0, h = 0, raf = 0;
+
+  const build = () => {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    w = innerWidth; h = innerHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const count = Math.round(Math.min(90, Math.max(28, (w * h) / 24000)));
+    nodes = Array.from({ length: count }, (_, i) => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.16,
+      vy: (Math.random() - 0.5) * 0.16,
+      r: Math.random() < 0.13 ? 2.4 : 1.3,
+      // A tenth of the field is "lit": the contacts that actually read you.
+      lit: Math.random() < 0.1 ? (i % 3 === 0 ? '#8fa37e' : '#e2673a') : null
+    }));
+  };
+
+  const LINK = 138;
+  const draw = () => {
+    ctx.clearRect(0, 0, w, h);
+
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+      for (let j = i + 1; j < nodes.length; j++) {
+        const b = nodes[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 > LINK * LINK) continue;
+        ctx.strokeStyle = `rgba(244,237,225,${0.13 * (1 - Math.sqrt(d2) / LINK)})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+    }
+
+    for (const n of nodes) {
+      ctx.fillStyle = n.lit || 'rgba(244,237,225,.34)';
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  };
+
+  const step = () => {
+    for (const n of nodes) {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < -20) n.x = w + 20; else if (n.x > w + 20) n.x = -20;
+      if (n.y < -20) n.y = h + 20; else if (n.y > h + 20) n.y = -20;
+    }
+    draw();
+    raf = requestAnimationFrame(step);
+  };
+
+  const start = () => {
+    cancelAnimationFrame(raf);
+    build();
+    if (calm) draw(); else step();
+  };
+
+  start();
+  let t;
+  addEventListener('resize', () => { clearTimeout(t); t = setTimeout(start, 180); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(raf);
+    else if (!calm) step();
+  });
+})();
+</script>
+
+</body>
+</html>
